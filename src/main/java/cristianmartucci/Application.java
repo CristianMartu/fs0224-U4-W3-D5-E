@@ -23,7 +23,7 @@ public class Application {
 
         Book book = new Book("679-0-04-528988-9", "A Game Of Thrones", 1996, 2000, "George R.R.Martin", "fantasy");
         Book book2 = new Book("678-0-04-528988-9", "The Witcher", 2000, 1000, " Andrzej Sapkowski", "fantasy");
-        Book book3 = new Book("677-0-04-528988-9", "Harry Potter", 2004, 800, "J. K. Rowling", "fantasy");
+        Book book3 = new Book("667-0-04-528988-9", "Harry Potter", 2004, 800, "J. K. Rowling", "fantasy");
         Book book4 = new Book("676-0-04-528988-9", "Dune", 1965, 1500, "Frank Herbert", "fantasy");
         Magazine magazine = new Magazine("679-0-04-528977-9", "Magazine", 2023, 300, Periodicity.MONTHLY);
         Magazine magazine2 = new Magazine("979-0-04-528977-9", "Weekly shonen jump", 2024, 100, Periodicity.WEEKLY);
@@ -44,20 +44,34 @@ public class Application {
 //        userDAO.save(user3);
 
         User userFromDb = userDAO.getByCardId("82b21122-f5dd-436f-a355-f804c66141b0");
-        ElementCatalog elemFromDb = elementDAO.getByISBN("979-0-04-528977-9");
+        ElementCatalog elemFromDb = elementDAO.getByISBN("676-0-04-528988-9");
         Loan loan = new Loan(userFromDb, elemFromDb, LocalDate.now(), LocalDate.now().plusDays(30), null);
-//        loanDAO.save(loan);
+        //loanDAO.save(loan);
 
+        System.out.println("\n-----Delete element by ISBN-----");
         try {
             elementDAO.delete("677-0-04-528988-9");
         } catch (ElementException exception) {
             System.out.println(exception.getMessage());
         }
 
+        System.out.println("\n-----Search element by ISBN-----");
+        System.out.println(elemFromDb);
+
+        System.out.println("\n-----Get element by year-----");
         elementDAO.getByYear(2020).forEach(System.out::println);
+
+        System.out.println("\n-----Get element by author-----");
         elementDAO.getByAuthor("George R.R.Martin").forEach(System.out::println);
+
+        System.out.println("\n-----Get element by title-----");
         elementDAO.getByTitle("shonen").forEach(System.out::println);
 
+        System.out.println("\n-----Get loan by card_id-----");
+        loanDAO.getByCardId("82b21122-f5dd-436f-a355-f804c66141b0").forEach(System.out::println);
+
+        System.out.println("\n-----Get loan expired-----");
+        loanDAO.getExpired().forEach(System.out::println);
 
         em.close();
         emf.close();

@@ -3,21 +3,22 @@ package cristianmartucci.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "loan")
+@Table(name = "loans")
 public class Loan {
     @Id
     @GeneratedValue
     private UUID id;
 
-    @OneToMany(mappedBy = "loan_user")
-    private List<User> userList;
+    @ManyToOne
+    @JoinColumn(name = "loan_card_id", nullable = false)
+    private User user_card;
 
-    @OneToMany(mappedBy = "loan_element")
-    private List<ElementCatalog> elementCatalogList;
+    @ManyToOne
+    @JoinColumn(name = "loan_ISBN", nullable = false)
+    private ElementCatalog element;
 
     private LocalDate loan_start_date;
     private LocalDate expected_return_date;
@@ -26,7 +27,9 @@ public class Loan {
     public Loan() {
     }
 
-    public Loan(LocalDate loan_start_date, LocalDate expected_return_date, LocalDate return_date) {
+    public Loan(User user_card, ElementCatalog element, LocalDate loan_start_date, LocalDate expected_return_date, LocalDate return_date) {
+        this.user_card = user_card;
+        this.element = element;
         this.loan_start_date = loan_start_date;
         this.expected_return_date = expected_return_date;
         this.return_date = return_date;
@@ -60,18 +63,12 @@ public class Loan {
         this.return_date = return_date;
     }
 
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public List<ElementCatalog> getElementCatalogList() {
-        return elementCatalogList;
-    }
-
     @Override
     public String toString() {
         return "Loan{" +
                 "id=" + id +
+                ", user_card=" + user_card +
+                ", element=" + element +
                 ", loan_start_date=" + loan_start_date +
                 ", expected_return_date=" + expected_return_date +
                 ", return_date=" + return_date +

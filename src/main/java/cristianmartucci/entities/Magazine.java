@@ -8,7 +8,7 @@ import jakarta.persistence.Enumerated;
 
 
 @Entity
-@DiscriminatorValue("magazine")
+@DiscriminatorValue("magazines")
 public class Magazine extends ElementCatalog {
     @Enumerated(EnumType.STRING)
     private Periodicity periodicity;

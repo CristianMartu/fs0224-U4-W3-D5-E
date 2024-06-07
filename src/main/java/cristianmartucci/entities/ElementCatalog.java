@@ -2,8 +2,10 @@ package cristianmartucci.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "element_catalog")
+@Table(name = "element_catalogs")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class ElementCatalog {
     @Id
@@ -12,9 +14,8 @@ public abstract class ElementCatalog {
     protected int year_of_publication;
     protected int pages;
 
-    @ManyToOne
-    @JoinColumn(name = "loan_ISBN", nullable = false)
-    private Loan loan_element;
+    @OneToMany(mappedBy = "element")
+    private List<Loan> loanList;
 
     public ElementCatalog() {
     }
@@ -52,5 +53,9 @@ public abstract class ElementCatalog {
 
     public void setYear_of_publication(int year_of_publication) {
         this.year_of_publication = year_of_publication;
+    }
+
+    public List<Loan> getLoanList() {
+        return loanList;
     }
 }

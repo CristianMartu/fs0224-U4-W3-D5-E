@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 
 
 @Entity
-@DiscriminatorValue("book")
+@DiscriminatorValue("books")
 public class Book extends ElementCatalog {
     private String author;
     private String genre;

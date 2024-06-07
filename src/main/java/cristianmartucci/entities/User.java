@@ -3,10 +3,11 @@ package cristianmartucci.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue
@@ -15,9 +16,8 @@ public class User {
     private String surname;
     private LocalDate birthday;
 
-    @ManyToOne
-    @JoinColumn(name = "loan_card_id")
-    private Loan loan_user;
+    @OneToMany(mappedBy = "user_card")
+    private List<Loan> loanList;
 
     public User() {
     }
@@ -54,6 +54,10 @@ public class User {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+
+    public List<Loan> getLoanList() {
+        return loanList;
     }
 
     @Override
